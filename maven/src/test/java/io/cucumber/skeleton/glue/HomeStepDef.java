@@ -28,4 +28,9 @@ public class HomeStepDef extends Context {
     List<String> expectedList = dataTable.asList();
     Assertions.assertTrue(expectedList.stream().allMatch(homePage.exampleList()::contains),"The list is not matching");
   }
+
+  @When("the {string} example is opened")
+  public void theBasicAuthExampleIsOpened(String exampleLink) {
+    new HomePage(manager.getDriver()).openLink(exampleLink);
+  }
 }

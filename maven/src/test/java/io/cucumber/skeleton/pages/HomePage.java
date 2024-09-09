@@ -1,6 +1,7 @@
 package io.cucumber.skeleton.pages;
 
 import java.util.List;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
@@ -18,6 +19,7 @@ public class HomePage extends Page {
   @FindBy(xpath = ".//div[@id='content']//li")
   private List<WebElement> availableExamples;
 
+  public static String exampleLink = ".//div[@id='content']//a[contains(text(),'%s')]";
 
   public WebElement getTitle() {
     return title;
@@ -31,6 +33,12 @@ public class HomePage extends Page {
   public List<String> exampleList() {
     return availableExamples.stream()
         .map(tab -> tab.getAttribute("innerText")).toList();
+  }
+
+  public void openLink(String link) {
+    WebElement openExampleLink = driver.findElement(By.xpath(String.format(exampleLink, link)));
+      openExampleLink.click();
+      waitForPageLoad();
   }
 
 }
