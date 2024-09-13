@@ -38,27 +38,36 @@ public class NavPage extends Page {
     return pageText.getText();
   }
 
-  public List<List<String>> verifyTable(DataTable dataTable) {
-    List<List<String>> expectedData = dataTable.asLists(String.class);
-    // Get all rows from the table
-    List<WebElement> rows = exampleTable.findElements(By.tagName("tr"));
-    //Get the headers from the table
+  // Get all rows from the table
+  public List<WebElement> getRows(){
+    return exampleTable.findElements(By.tagName("tr"));
+  }
+  //Get the headers from the table
+  public List<WebElement> getHeaders(){
     WebElement headerRow = exampleTable.findElement(By.xpath(".//thead/tr"));
-    List<WebElement> headerColumns = headerRow.findElements(By.tagName("th"));
+    return headerRow.findElements(By.tagName("th"));
+  }
+
+  public List<String> checkHeaders(List<List<String>> expectedTable){
     List<String> headerValues = new ArrayList<>();
     // Check headers
-    List<String> expectedHeaders = expectedData.getFirst();
-    List<List<String>> tableData = new ArrayList<>();
+    List<String> expectedHeaders = expectedTable.getFirst();
     for (int i = 0; i < expectedHeaders.size(); i++) {
       String expectedHeader = expectedHeaders.get(i);
-      String actualHeader = headerColumns.get(i).getText();
+      String actualHeader = getHeaders().get(i).getText();
       if (expectedHeader.equals(actualHeader)) {
         headerValues.add(actualHeader); // Add matching header to the list
       }
     }
-    tableData.add(headerValues);
-    for (int i = 1; i < rows.size(); i++) {
-      WebElement row = rows.get(i);
+    return headerValues;
+  }
+
+  public List<List<String>> verifyTable(DataTable dataTable) {
+    List<List<String>> expectedData = dataTable.asLists(String.class);
+    List<List<String>> tableData = new ArrayList<>();
+    tableData.add(checkHeaders(expectedData));
+    for (int i = 1; i < getRows().size(); i++) {
+      WebElement row = getRows().get(i);
       List<WebElement> cells = row.findElements(By.tagName("td"));
       List<String> expectedRow = expectedData.get(i);
       List<String> rowData = new ArrayList<>();

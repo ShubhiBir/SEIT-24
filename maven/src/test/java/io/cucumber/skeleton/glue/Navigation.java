@@ -39,7 +39,6 @@ public class Navigation extends Context {
     NavPage navPage= new NavPage(manager.getDriver());
     List<List<String>> dataList = dataTable.asLists(String.class);
     List<List<String>> listExpectedValues = new ArrayList<>(dataList);
-    System.out.println("From Step Def : "+listExpectedValues);
     Assertions.assertEquals(listExpectedValues, navPage.verifyTable(dataTable),"Not all Expected Values are available: ");
   }
 }
