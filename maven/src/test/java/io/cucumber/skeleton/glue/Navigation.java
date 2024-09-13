@@ -6,7 +6,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.skeleton.core.Context;
 import io.cucumber.skeleton.core.Manager;
-import io.cucumber.skeleton.pages.NavPage;
+import io.cucumber.skeleton.pages.BasicAuthPage;
+import io.cucumber.skeleton.pages.SortableDataTablePage;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -25,20 +26,20 @@ public class Navigation extends Context {
 
   @And("valid credentials are supplied")
   public void validCredentialsAreSupplied() {
-    new NavPage(manager.getDriver()).enterCred();
+    new BasicAuthPage(manager.getDriver()).enterCred();
   }
 
   @Then("Congratulations should be displayed")
   public void congratulationsShouldBeDisplayed() {
-    NavPage navPage= new NavPage(manager.getDriver());
-    Assertions.assertEquals("Congratulations! You must have the proper credentials.",navPage.verifyPage(),"The message displayed is not correct.");
+    BasicAuthPage basicAuthPage= new BasicAuthPage(manager.getDriver());
+    Assertions.assertEquals("Congratulations! You must have the proper credentials.",basicAuthPage.verifyPage(),"The message displayed is not correct.");
   }
 
   @Then("the table should be displayed as below")
   public void theBelowTableShouldBeDisplayedAsBelow(DataTable dataTable) {
-    NavPage navPage= new NavPage(manager.getDriver());
+    SortableDataTablePage sortableDataTablePage = new SortableDataTablePage(manager.getDriver());
     List<List<String>> dataList = dataTable.asLists(String.class);
     List<List<String>> listExpectedValues = new ArrayList<>(dataList);
-    Assertions.assertEquals(listExpectedValues, navPage.verifyTable(dataTable),"Not all Expected Values are available: ");
+    Assertions.assertEquals(listExpectedValues, sortableDataTablePage.verifyTable(dataTable),"Not all Expected Values are available: ");
   }
 }
