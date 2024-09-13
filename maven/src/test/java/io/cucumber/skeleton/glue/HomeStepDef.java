@@ -17,18 +17,30 @@ public class HomeStepDef extends Context {
     super(manager);
   }
 
+  /**
+   * Use this step definition to validate user is on the Home Page by validating the title of the page.
+   */
   @When("the user navigates to example Home Page step")
   public void exampleHomePageStep() {
-    System.out.println("printing shared stash :" + getTestStash().toString());
+    HomePage homePage = new HomePage(manager.getDriver());
+    Assertions.assertEquals(homePage.getTitle().getText(),"Welcome to the-internet");
   }
 
+  /**
+   * Use this step definition to validate the Expected List of Examples on the Actual Web Page.
+   * @param dataTable is the list of Expected Examples.
+   */
   @Then("the user verifies the displayed list as below")
   public void theUserVerifiesTheDisplayedListOfAvailableExamples(DataTable dataTable) {
     HomePage homePage = new HomePage(manager.getDriver());
     List<String> expectedList = dataTable.asList();
-    Assertions.assertTrue(expectedList.stream().allMatch(homePage.exampleList()::contains),"The list is not matching");
+    Assertions.assertTrue(homePage.exampleList().containsAll(expectedList),"The list is not matching");
   }
 
+  /**
+   * Use this step definition to click on the exampleLink.
+   * @param exampleLink is the name of the Example User wants to click on.
+   */
   @When("the {string} example is opened")
   public void theBasicAuthExampleIsOpened(String exampleLink) {
     new HomePage(manager.getDriver()).openLink(exampleLink);

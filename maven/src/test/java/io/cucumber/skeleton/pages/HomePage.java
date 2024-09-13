@@ -36,9 +36,8 @@ public class HomePage extends Page {
   }
 
   public void openLink(String link) {
-    WebElement openExampleLink = driver.findElement(By.xpath(String.format(exampleLink, link)));
-      openExampleLink.click();
-      waitForPageLoad();
+    driver.findElement(By.xpath(String.format(exampleLink, link))).click();
+    waitForPageLoad();
   }
 
 }

@@ -27,7 +27,7 @@ public class SortableDataTablePage extends Page {
     return headerRow.findElements(By.tagName("th"));
   }
 
-  public List<String> checkHeaders(List<List<String>> expectedTable){
+  public List<String> validateHeaders(List<List<String>> expectedTable){
     List<String> headerValues = new ArrayList<>();
     // Check headers
     List<String> expectedHeaders = expectedTable.getFirst();
@@ -44,7 +44,7 @@ public class SortableDataTablePage extends Page {
   public List<List<String>> verifyTable(DataTable dataTable) {
     List<List<String>> expectedData = dataTable.asLists(String.class);
     List<List<String>> tableData = new ArrayList<>();
-    tableData.add(checkHeaders(expectedData));
+    tableData.add(validateHeaders(expectedData));
     for (int i = 1; i < getRows().size(); i++) {
       WebElement row = getRows().get(i);
       List<WebElement> cells = row.findElements(By.tagName("td"));
